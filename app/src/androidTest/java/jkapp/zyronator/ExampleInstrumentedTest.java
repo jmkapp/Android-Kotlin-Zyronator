@@ -1,4 +1,4 @@
-package jkapp.codez8;
+package jkapp.zyronator;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

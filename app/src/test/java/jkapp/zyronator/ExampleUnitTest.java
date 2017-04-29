@@ -1,4 +1,4 @@
-package jkapp.codez8;
+package jkapp.zyronator;
 
 import org.junit.Test;
 
