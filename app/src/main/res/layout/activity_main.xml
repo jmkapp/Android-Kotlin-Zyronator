@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!--<fragment
-        android:id="@+id/list_frag"
-        class="jkapp.workoutkotlin.WorkoutListFragment"
+    <fragment
+        android:id="@+id/summary_frag"
+        class="jkapp.zyronator.listsummary.ListSummaryFragment"
         android:layout_width="0dp"
         android:layout_weight="2"
-        android:layout_height="match_parent"/>-->
+        android:layout_height="match_parent"/>
 
     <fragment
         android:id="@+id/detail_frag"

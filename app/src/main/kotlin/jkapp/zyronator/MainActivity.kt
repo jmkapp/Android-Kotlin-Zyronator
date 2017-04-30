@@ -12,14 +12,7 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        try
-        {
-            val frag = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
-            frag.setListId(1)
-        }
-        catch(ex : Exception)
-        {
-            Log.i("Test", "Test")
-        }
+        val frag = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
+        frag.setListId(1)
     }
 }
