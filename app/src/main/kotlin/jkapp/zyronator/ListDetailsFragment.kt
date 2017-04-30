@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import jkapp.zyronator.listdetails.ListOfDetails
 
 class ListDetailsFragment : Fragment()
 {
@@ -19,6 +20,11 @@ class ListDetailsFragment : Fragment()
         return inflater.inflate(R.layout.fragment_list_details, container, false)
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?)
+    {
+        super.onActivityCreated(savedInstanceState)
+    }
+
     override fun onStart()
     {
         super.onStart()
@@ -26,12 +32,13 @@ class ListDetailsFragment : Fragment()
         if (view != null)
         {
             val title = view.findViewById(R.id.textTitle) as TextView
-            //val workout = Workout.workouts[workoutId.toInt()]
-            //title.setText(workout.name)
-            title.setText("title testing 1.......")
             val description = view.findViewById(R.id.textDescription) as TextView
-            //description.setText(workout.description)
-            description.setText("description testing 1....")
+
+            val listOfDetaile = ListOfDetails().listOfDetails
+            val listDetails = listOfDetaile.get(_listId.toInt())
+
+            title.setText(listDetails.displayTitle)
+            description.setText(listDetails.comment)
         }
     }
 
