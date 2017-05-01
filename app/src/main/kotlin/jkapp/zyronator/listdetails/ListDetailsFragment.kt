@@ -1,4 +1,4 @@
-package jkapp.zyronator
+package jkapp.zyronator.listdetails
 
 
 import android.os.Bundle
@@ -7,11 +7,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import jkapp.zyronator.R
 import jkapp.zyronator.listdetails.ListOfDetails
 
 class ListDetailsFragment : Fragment()
 {
+    private val _listIdString = "listid"
     private var _listId : Long = 0
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        if(savedInstanceState != null)
+        {
+            _listId = savedInstanceState.getLong(_listIdString)
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
@@ -40,6 +51,11 @@ class ListDetailsFragment : Fragment()
             title.setText(listDetails.displayTitle)
             description.setText(listDetails.comment)
         }
+    }
+
+    override fun onSaveInstanceState(savedInstanceState: Bundle)
+    {
+        savedInstanceState.putLong(_listIdString, _listId)
     }
 
     public fun setListId(id : Long)
