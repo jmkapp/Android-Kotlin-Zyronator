@@ -17,15 +17,8 @@ class ListSummaryFragment : ListFragment()
 
     override fun onAttach(context: Context)
     {
-        Log.i(ListSummaryFragment::class.java.simpleName, "onAttach()")
         super.onAttach(context)
         this._listener = context as ListListener
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
-        Log.i(ListSummaryFragment::class.java.simpleName, "onCreate()")
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,18 +30,6 @@ class ListSummaryFragment : ListFragment()
         listAdapter = adapter
 
         return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?)
-    {
-        Log.i(ListSummaryFragment::class.java.simpleName, "onActivityCreated()")
-        super.onActivityCreated(savedInstanceState)
-    }
-
-    override fun onStart()
-    {
-        Log.i(ListSummaryFragment::class.java.simpleName, "onStart()")
-        super.onStart()
     }
 
     override fun onListItemClick(l: ListView, v: View, position: Int, id: Long)

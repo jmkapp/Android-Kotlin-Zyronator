@@ -24,6 +24,10 @@
             android:name=".listsummary.ListSummaryService"
             android:exported="false"/>
 
+        <service
+            android:name=".listdetails.ListDetailsService"
+            android:exported="false"/>
+
     </application>
 
 </manifest>

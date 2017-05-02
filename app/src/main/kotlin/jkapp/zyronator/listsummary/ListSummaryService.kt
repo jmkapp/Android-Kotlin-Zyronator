@@ -28,7 +28,6 @@ class ListSummaryService : IntentService(_name)
 
     override fun onHandleIntent(intent: Intent)
     {
-        Log.i(_name, "onHandleIntent()")
         val reply : PendingIntent = intent.getParcelableExtra(EXTRA_PENDING_RESULT)
 
         val baseUrl : String = intent.getStringExtra(EXTRA_BASE_URL)
