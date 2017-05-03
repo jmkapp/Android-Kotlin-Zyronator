@@ -3,15 +3,25 @@ package jkapp.zyronator.listdetails
 
 import android.os.Bundle
 import android.app.ListFragment
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ListView
+import jkapp.zyronator.ListListener
 
 class ListDetailsFragment : ListFragment()
 {
     private val _listIdString = "listid"
     private var _listId : Long = 0
+    private var _listener: ListListener? = null
+
+    override fun onAttach(context: Context)
+    {
+        super.onAttach(context)
+        this._listener = context as ListListener
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -48,11 +58,19 @@ class ListDetailsFragment : ListFragment()
            // val title = view.findViewById(R.id.textTitle) as TextView
             //val description = view.findViewById(R.id.textDescription) as TextView
 
-            val listOfDetaile = ListOfDetails().listOfDetails
-            val listDetails = listOfDetaile.get(_listId.toInt())
+            //val listOfDetaile = ListOfDetails().listOfDetails
+            //val listDetails = listOfDetaile.get(_listId.toInt())
 
             //title.setText(listDetails.display_title)
             //description.setText(listDetails.comment)
+        }
+    }
+
+    override fun onListItemClick(l: ListView, v: View, position: Int, id: Long)
+    {
+        if (_listener != null)
+        {
+            _listener!!.itemClicked(id)
         }
     }
 
