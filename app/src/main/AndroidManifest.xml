@@ -18,16 +18,21 @@
             </intent-filter>
         </activity>
         <activity android:name=".listdetails.ListDetailsActivity">
+
         </activity>
 
         <service
             android:name=".listsummary.ListSummaryService"
             android:exported="false"/>
-
         <service
             android:name=".listdetails.ListDetailsService"
             android:exported="false"/>
+        <service
+            android:name=".releasedetails.ReleaseService"
+            android:exported="false"/>
 
+        <activity android:name=".releasedetails.ReleaseActivity">
+        </activity>
     </application>
 
 </manifest>

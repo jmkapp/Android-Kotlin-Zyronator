@@ -1,4 +1,4 @@
-package jkapp.zyronator.listsummary
+package jkapp.zyronator
 
 interface ListListener
 {

@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import jkapp.zyronator.listdetails.ListDetailsActivity
 import jkapp.zyronator.listdetails.ListDetailsFragment
-import jkapp.zyronator.listsummary.ListListener
 import jkapp.zyronator.listsummary.ListSummaryFragment
 import jkapp.zyronator.listsummary.ListSummaryService
 import jkapp.zyronator.listsummary.Pagination
