@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/summary_frag"
-        class="jkapp.zyronator.listsummary.ListSummaryFragment"
+        class="jkapp.zyronator.list.summary.ListSummaryFragment"
         android:layout_width="0dp"
         android:layout_weight="2"
         android:layout_height="match_parent"/>

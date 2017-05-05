@@ -8,7 +8,7 @@ import android.util.Log
 
 import jkapp.zyronator.R
 
-class ReleaseActivity : AppCompatActivity()
+class ReleaseActivity : AppCompatActivity(), ReleaseReceiver
 {
     private val _apiRequestCode = 1
 
@@ -22,29 +22,40 @@ class ReleaseActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_release)
 
-        val pendingResult: PendingIntent = createPendingResult(_apiRequestCode, Intent(), 0)
-        val newIntent = Intent(applicationContext, ReleaseService::class.java)
+        if(savedInstanceState == null)
+        {
+            val pendingResult: PendingIntent = createPendingResult(_apiRequestCode, Intent(), 0)
+            val newIntent = Intent(applicationContext, ReleaseService::class.java)
 
-        val userAgent : String = getString(R.string.app_name) + "/" + getString(R.string.version)
-        val baseUrl : String = getString(R.string.base_url)
-        val listId = intent.getStringExtra(EXTRA_RELEASE_ID)
+            val userAgent: String = getString(R.string.app_name) + "/" + getString(R.string.version)
+            val baseUrl: String = getString(R.string.base_url)
+            val listId = intent.getStringExtra(EXTRA_RELEASE_ID)
 
-        newIntent.putExtra(ReleaseService.EXTRA_PENDING_RESULT, pendingResult)
-        newIntent.putExtra(ReleaseService.EXTRA_BASE_URL, baseUrl)
-        newIntent.putExtra(ReleaseService.EXTRA_USER_AGENT, userAgent)
-        newIntent.putExtra(ReleaseService.EXTRA_RELEASE_ID, listId)
+            val resultReceiver = ReleaseResultReceiver(this)
 
-        startService(newIntent)
+            newIntent.putExtra(ReleaseService.EXTRA_RESULT_RECEIVER, resultReceiver)
+            newIntent.putExtra(ReleaseService.EXTRA_PENDING_RESULT, pendingResult)
+            newIntent.putExtra(ReleaseService.EXTRA_BASE_URL, baseUrl)
+            newIntent.putExtra(ReleaseService.EXTRA_USER_AGENT, userAgent)
+            newIntent.putExtra(ReleaseService.EXTRA_RELEASE_ID, listId)
+
+            startService(newIntent)
+        }
+    }
+
+    override fun onReceiveDetailResult(resultCode: Int, resultData: Bundle)
+    {
+        val release = resultData.getParcelable<ReleaseApiCall>(ReleaseService.EXTRA_RELEASE_RESULT)
+
+        val releaseFragment = fragmentManager.findFragmentById(R.id.release_frag) as ReleaseFragment
+        releaseFragment.setData(release)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode : Int, data : Intent)
     {
         if(requestCode == _apiRequestCode)
         {
-            val release = data.getParcelableExtra<ReleaseApiCall>(ReleaseService.EXTRA_RELEASE_RESULT)
 
-            val releaseFragment = fragmentManager.findFragmentById(R.id.release_frag) as ReleaseFragment
-            releaseFragment.setData(release)
         }
 
         super.onActivityResult(requestCode, resultCode, data)

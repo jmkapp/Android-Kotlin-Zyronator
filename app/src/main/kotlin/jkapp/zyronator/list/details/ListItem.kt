@@ -1,4 +1,4 @@
-package jkapp.zyronator.listdetails
+package jkapp.zyronator.list.details
 
 import android.os.Parcel
 import android.os.Parcelable

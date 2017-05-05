@@ -36,15 +36,15 @@ data class ReleaseApiCall(
     }
 
     constructor(source: Parcel) : this(
-    source.readString(),
-    source.createStringArrayList(),
-    source.createStringArrayList(),
-    source.createTypedArrayList(Label.CREATOR),
-    source.createTypedArrayList(Artist.CREATOR),
-    source.readString(),
-    source.readString(),
-    source.createTypedArrayList(Track.CREATOR),
-    source.readString()
+        source.readString(),
+        source.createStringArrayList(),
+        source.createStringArrayList(),
+        source.createTypedArrayList(Label.CREATOR),
+        source.createTypedArrayList(Artist.CREATOR),
+        source.readString(),
+        source.readString(),
+        source.createTypedArrayList(Track.CREATOR),
+        source.readString()
     )
 
     override fun describeContents() = 0

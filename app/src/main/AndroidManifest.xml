@@ -17,15 +17,15 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".listdetails.ListDetailsActivity">
+        <activity android:name="jkapp.zyronator.list.details.ListDetailsActivity">
 
         </activity>
 
         <service
-            android:name=".listsummary.ListSummaryService"
+            android:name="jkapp.zyronator.list.summary.ListSummaryService"
             android:exported="false"/>
         <service
-            android:name=".listdetails.ListDetailsService"
+            android:name="jkapp.zyronator.list.details.ListDetailsService"
             android:exported="false"/>
         <service
             android:name=".releasedetails.ReleaseService"

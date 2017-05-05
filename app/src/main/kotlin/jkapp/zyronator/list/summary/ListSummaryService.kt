@@ -1,10 +1,9 @@
-package jkapp.zyronator.listsummary
+package jkapp.zyronator.list.summary
 
 import android.app.IntentService
-import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.os.ResultReceiver
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -14,22 +13,18 @@ class ListSummaryService : IntentService(_name)
     companion object
     {
         private val _name: String = ListSummaryService::class.java.simpleName
-        val EXTRA_PENDING_RESULT: String = "pend"
+        val EXTRA_RESULT_RECEIVER = "resrec"
         val EXTRA_BASE_URL: String = "url"
-        val PAGINATION_RESULT: String = "pag"
-        val LISTS_RESULT: String = "lists"
-        val EXTRA_BUNDLE_RESULT: String = "bundle"
         val RESULT_CODE: Int = 0
 
         val EXTRA_USER_AGENT = "agent"
         val EXTRA_USER = "user"
         val EXTRA_PER_PAGE_DEFAULT = "perpage"
+        val EXTRA_LIST_SUMMARY_RESULT = "listsum"
     }
 
     override fun onHandleIntent(intent: Intent)
     {
-        val reply : PendingIntent = intent.getParcelableExtra(EXTRA_PENDING_RESULT)
-
         val baseUrl : String = intent.getStringExtra(EXTRA_BASE_URL)
         val userAgent : String = intent.getStringExtra(EXTRA_USER_AGENT)
         val user : String = intent.getStringExtra(EXTRA_USER)
@@ -45,25 +40,10 @@ class ListSummaryService : IntentService(_name)
 
         if(response.isSuccessful)
         {
-            val pagination : Pagination = response.body().pagination
-            val lists: java.util.List<jkapp.zyronator.listsummary.List> = response.body().lists
-
-            val result = Intent()
-
-            val bundle : Bundle = Bundle()
-            bundle.putParcelable(PAGINATION_RESULT, pagination)
-            bundle.putParcelableArrayList(LISTS_RESULT, ArrayList<jkapp.zyronator.listsummary.List>(lists))
-
-            result.putExtra(EXTRA_BUNDLE_RESULT, bundle)
-
-            try
-            {
-                reply.send(this, RESULT_CODE, result)
-            }
-            catch(ce : PendingIntent.CanceledException)
-            {
-                Log.i(_name, "reply cancelled", ce)
-            }
+            val bundle = Bundle()
+            bundle.putParcelable(EXTRA_LIST_SUMMARY_RESULT, response.body())
+            val resultReceiver = intent.getParcelableExtra<ResultReceiver>(EXTRA_RESULT_RECEIVER)
+            resultReceiver.send(RESULT_CODE, bundle)
         }
     }
 }

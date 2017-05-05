@@ -1,4 +1,4 @@
-package jkapp.zyronator.listdetails
+package jkapp.zyronator.list.details
 
 import retrofit2.Call
 import retrofit2.http.GET
@@ -14,4 +14,4 @@ interface ListDetailsApi
 }
 
 data class ListDetailsApiCall(
-        val items : java.util.List<jkapp.zyronator.listdetails.ListItem>)
+        val items : java.util.List<jkapp.zyronator.list.details.ListItem>)
