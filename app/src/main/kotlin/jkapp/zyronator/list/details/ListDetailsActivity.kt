@@ -3,11 +3,17 @@ package jkapp.zyronator.list.details
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import jkapp.zyronator.ListListener
 import jkapp.zyronator.R
 import jkapp.zyronator.releasedetails.ReleaseActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
-class ListDetailsActivity : AppCompatActivity(), ListListener, DetailsReceiver
+class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDetailsApiCall>
 {
     private var _list = java.util.ArrayList<jkapp.zyronator.list.details.ListItem>()
 
@@ -23,31 +29,39 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, DetailsReceiver
 
         if(savedInstanceState == null)
         {
-            val newIntent = Intent(applicationContext, ListDetailsService::class.java)
-
             val userAgent : String = getString(R.string.app_name) + "/" + getString(R.string.version)
             val baseUrl : String = getString(R.string.base_url)
-            val perPageDefault : String = getString(R.string.per_page_default)
             val listId = intent.getStringExtra(EXTRA_LIST_ID)
 
-            val resultReceiver = DetailsResultReceiver(this)
+            val retrofit = Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
 
-            newIntent.putExtra(ListDetailsService.EXTRA_RESULT_RECEIVER, resultReceiver)
-            newIntent.putExtra(ListDetailsService.EXTRA_BASE_URL, baseUrl)
-            newIntent.putExtra(ListDetailsService.EXTRA_USER_AGENT, userAgent)
-            newIntent.putExtra(ListDetailsService.EXTRA_LIST_ID, listId)
-            newIntent.putExtra(ListDetailsService.EXTRA_PER_PAGE_DEFAULT, perPageDefault)
-
-            startService(newIntent)
+            val listDetailsApi = retrofit.create(ListDetailsApi::class.java)
+            val listDetailsApiCall : Call<ListDetailsApiCall> = listDetailsApi.getListDetailsCall(listId, userAgent)
+            listDetailsApiCall.enqueue(this)
         }
     }
 
-    override fun onReceiveDetailResult(resultCode: Int, resultData: Bundle)
+    override fun onResponse(call: Call<ListDetailsApiCall>, response: Response<ListDetailsApiCall>)
     {
-        val list = resultData.getParcelableArrayList<ListItem>(ListDetailsService.EXTRA_LIST_DETAILS_RESULT)
+        if(response.isSuccessful)
+        {
+            val listDetails = response.body().items
 
-        val listDetailFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
-        listDetailFragment.setData(list)
+            val listDetailFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
+            listDetailFragment.setData(listDetails.toList())
+        }
+        else
+        {
+            Toast.makeText(applicationContext, "Api Call Failed: " + response.message(), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onFailure(call: Call<ListDetailsApiCall>, t: Throwable)
+    {
+        Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
     }
 
     override fun itemClicked(listId: Long)
@@ -72,6 +86,4 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, DetailsReceiver
             startActivity(intent)
         }
     }
-
-
 }

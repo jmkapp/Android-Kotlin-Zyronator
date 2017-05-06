@@ -12,10 +12,10 @@ interface ReleaseApi
     @GET("/releases/{releaseid}")
     fun getReleaseCall(
             @Path("releaseid") releaseId : String,
-            @Header("user-agent") userAgent : String) : Call<ReleaseApiCall>
+            @Header("user-agent") userAgent : String) : Call<Release>
 }
 
-data class ReleaseApiCall(
+data class Release(
         val id : String = "",
         val styles : List<String> = listOf<String>(),
         val genres : List<String> = listOf<String>(),
@@ -24,27 +24,27 @@ data class ReleaseApiCall(
         val title : String = "",
         val masterurl : String? = "",
         val tracklist : List<Track>,
-        val country : String = "") : Parcelable
+       val country : String = "") : Parcelable
 {
     companion object
     {
-        @JvmField val CREATOR: Parcelable.Creator<ReleaseApiCall> = object : Parcelable.Creator<ReleaseApiCall>
+        @JvmField val CREATOR: Parcelable.Creator<Release> = object : Parcelable.Creator<Release>
         {
-            override fun createFromParcel(source: Parcel): ReleaseApiCall = ReleaseApiCall(source)
-            override fun newArray(size: Int): Array<ReleaseApiCall?> = arrayOfNulls(size)
+            override fun createFromParcel(source: Parcel): Release = Release(source)
+            override fun newArray(size: Int): Array<Release?> = arrayOfNulls(size)
         }
     }
 
     constructor(source: Parcel) : this(
-        source.readString(),
-        source.createStringArrayList(),
-        source.createStringArrayList(),
-        source.createTypedArrayList(Label.CREATOR),
-        source.createTypedArrayList(Artist.CREATOR),
-        source.readString(),
-        source.readString(),
-        source.createTypedArrayList(Track.CREATOR),
-        source.readString()
+            source.readString(),
+            source.createStringArrayList(),
+            source.createStringArrayList(),
+            source.createTypedArrayList(Label.CREATOR),
+            source.createTypedArrayList(Artist.CREATOR),
+            source.readString(),
+            source.readString(),
+            source.createTypedArrayList(Track.CREATOR),
+            source.readString()
     )
 
     override fun describeContents() = 0

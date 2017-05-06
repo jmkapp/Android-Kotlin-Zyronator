@@ -13,7 +13,7 @@ class ReleaseFragment : Fragment()
 {
     //private var _releaseId: Long = 0
     private val _releaseTag = "rel"
-    private var _release : ReleaseApiCall? = null
+    private var _release : Release? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View
@@ -32,7 +32,7 @@ class ReleaseFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
     }
 
-    fun setData(release : ReleaseApiCall)
+    fun setData(release : Release)
     {
         _release = release
 
