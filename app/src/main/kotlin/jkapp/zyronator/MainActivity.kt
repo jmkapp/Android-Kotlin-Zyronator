@@ -4,11 +4,16 @@ import android.app.FragmentTransaction
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Toast
 import jkapp.zyronator.list.details.*
 import jkapp.zyronator.list.summary.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 
-class MainActivity : AppCompatActivity(), ListListener, SummaryReceiver, DetailsReceiver
+internal class MainActivity : AppCompatActivity(), ListListener, Callback<ListDetailsApiCall>
 {
     private var _currentDetailsList = listOf<jkapp.zyronator.list.details.ListItem>()
     private val _savedList = "savedlist"
@@ -25,40 +30,41 @@ class MainActivity : AppCompatActivity(), ListListener, SummaryReceiver, Details
         }
         else
         {
-            val intent = Intent(applicationContext, ListSummaryService::class.java)
+            val userAgent = getString(R.string.app_name) + "/" + getString(R.string.version)
+            val discogsUser = getString(R.string.default_user)
+            val baseUrl = getString(R.string.base_url)
 
-            val userAgent : String = getString(R.string.app_name) + "/" + getString(R.string.version)
-            val user : String = getString(R.string.default_user)
-            val baseUrl : String = getString(R.string.base_url)
-            val perPageDefault : String = getString(R.string.per_page_default)
-
-            val resultReceiver = SummaryResultReceiver(this)
-
-            intent.putExtra(ListSummaryService.EXTRA_RESULT_RECEIVER, resultReceiver)
-            intent.putExtra(ListSummaryService.EXTRA_BASE_URL, baseUrl)
-            intent.putExtra(ListSummaryService.EXTRA_USER_AGENT, userAgent)
-            intent.putExtra(ListSummaryService.EXTRA_USER, user)
-            intent.putExtra(ListSummaryService.EXTRA_PER_PAGE_DEFAULT, perPageDefault)
-
-            startService(intent)
+            val apiCall = SummaryApiCall(activity = this, baseUrl = baseUrl, userAgent = userAgent, discogsUser = discogsUser)
+            apiCall.execute()
         }
     }
 
-    override fun onReceiveSummaryResult(resultCode: Int, resultData: Bundle)
+    internal fun summaryApiResponse(response: Response<ListSummaryApiCall>)
     {
-        val listSummary : ListSummaryApiCall = resultData.getParcelable<ListSummaryApiCall>(ListSummaryService.EXTRA_LIST_SUMMARY_RESULT)
-        val lists = listSummary.lists
-        val fragmentContainer = findViewById(R.id.fragment_container)
-        if(fragmentContainer != null)
+        if(response.isSuccessful)
         {
-            val listSummaryFragment = fragmentManager.findFragmentById(R.id.summary_frag) as ListSummaryFragment
-            listSummaryFragment.setData(lists)
+            val lists = response.body().lists
+            val fragmentContainer = findViewById(R.id.fragment_container)
+            if(fragmentContainer != null)
+            {
+                val listSummaryFragment = fragmentManager.findFragmentById(R.id.summary_frag) as ListSummaryFragment
+                listSummaryFragment.setData(lists)
+            }
+            else
+            {
+                val listSummaryFragment = fragmentManager.findFragmentById(R.id.list_frag) as ListSummaryFragment
+                listSummaryFragment.setData(lists)
+            }
         }
         else
         {
-            val listSummaryFragment = fragmentManager.findFragmentById(R.id.list_frag) as ListSummaryFragment
-            listSummaryFragment.setData(lists)
+            Toast.makeText(applicationContext, "Api Call Failed: " + response.message(), Toast.LENGTH_LONG).show()
         }
+    }
+
+    internal fun summaryApiCallFailed(call: Call<ListSummaryApiCall>, t: Throwable)
+    {
+        Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
     }
 
     override fun itemClicked(listId: Long)
@@ -67,7 +73,18 @@ class MainActivity : AppCompatActivity(), ListListener, SummaryReceiver, Details
         if(fragmentContainer != null)
         {
             val listSummaryFragment = fragmentManager.findFragmentById(R.id.summary_frag) as ListSummaryFragment
-            fetchDetailsData(listSummaryFragment.getListId(listId))
+
+            val userAgent = getString(R.string.app_name) + "/" + getString(R.string.version)
+            val baseUrl = getString(R.string.base_url)
+
+            val retrofit = Retrofit.Builder()
+                    .baseUrl(baseUrl)
+                    .addConverterFactory(MoshiConverterFactory.create())
+                    .build()
+
+            val listDetailsApi = retrofit.create(ListDetailsApi::class.java)
+            val listDetailsApiCall : Call<ListDetailsApiCall> = listDetailsApi.getListDetailsCall(listSummaryFragment.getListId(listId), userAgent)
+            listDetailsApiCall.enqueue(this)
         }
         else
         {
@@ -79,38 +96,31 @@ class MainActivity : AppCompatActivity(), ListListener, SummaryReceiver, Details
         }
     }
 
-    private fun fetchDetailsData(listId : String)
+    override fun onResponse(call: Call<ListDetailsApiCall>, response: Response<ListDetailsApiCall>)
     {
-        val newIntent = Intent(applicationContext, ListDetailsService::class.java)
+        if(response.isSuccessful)
+        {
+            val listDetails = response.body().items
+            _currentDetailsList = listDetails.toList()
 
-        val userAgent : String = getString(R.string.app_name) + "/" + getString(R.string.version)
-        val baseUrl : String = getString(R.string.base_url)
-        val perPageDefault : String = getString(R.string.per_page_default)
+            val _detailsFragment = ListDetailsFragment()
+            val ft = fragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, _detailsFragment)
+            ft.addToBackStack(null)
+            ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+            ft.commit()
 
-        val resultReceiver = DetailsResultReceiver(this)
-
-        newIntent.putExtra(ListDetailsService.EXTRA_RESULT_RECEIVER, resultReceiver)
-        newIntent.putExtra(ListDetailsService.EXTRA_BASE_URL, baseUrl)
-        newIntent.putExtra(ListDetailsService.EXTRA_USER_AGENT, userAgent)
-        newIntent.putExtra(ListDetailsService.EXTRA_LIST_ID, listId)
-        newIntent.putExtra(ListDetailsService.EXTRA_PER_PAGE_DEFAULT, perPageDefault)
-
-        startService(newIntent)
+            _detailsFragment.setData(_currentDetailsList)
+        }
+        else
+        {
+            Toast.makeText(applicationContext, "Api Call Failed: " + response.message(), Toast.LENGTH_LONG).show()
+        }
     }
 
-    override fun onReceiveDetailResult(resultCode: Int, resultData: Bundle)
+    override fun onFailure(call: Call<ListDetailsApiCall>, t: Throwable)
     {
-        val listDetails = resultData.getParcelableArrayList<jkapp.zyronator.list.details.ListItem>(ListDetailsService.EXTRA_LIST_DETAILS_RESULT)
-        _currentDetailsList = listDetails.toList()
-
-        val _detailsFragment = ListDetailsFragment()
-        val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, _detailsFragment)
-        ft.addToBackStack(null)
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        ft.commit()
-
-        _detailsFragment.setData(_currentDetailsList)
+        Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
     }
 
     override fun onSaveInstanceState(outState: Bundle)
