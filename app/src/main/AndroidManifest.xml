@@ -18,18 +18,7 @@
             </intent-filter>
         </activity>
         <activity android:name="jkapp.zyronator.list.details.ListDetailsActivity">
-
         </activity>
-
-        <service
-            android:name="jkapp.zyronator.list.summary.ListSummaryService"
-            android:exported="false"/>
-        <service
-            android:name="jkapp.zyronator.list.details.ListDetailsService"
-            android:exported="false"/>
-        <service
-            android:name=".releasedetails.ReleaseService"
-            android:exported="false"/>
 
         <activity android:name=".releasedetails.ReleaseActivity">
         </activity>
