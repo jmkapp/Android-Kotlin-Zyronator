@@ -17,6 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name="jkapp.zyronator.list.summary.ListSummaryActivity">
+        </activity>
         <activity android:name="jkapp.zyronator.list.details.ListDetailsActivity">
         </activity>
 

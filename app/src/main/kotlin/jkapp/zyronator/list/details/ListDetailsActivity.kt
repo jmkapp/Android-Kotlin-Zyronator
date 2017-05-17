@@ -16,6 +16,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDetailsApiCall>
 {
     private var _list = java.util.ArrayList<jkapp.zyronator.list.details.ListItem>()
+    private val _detailsFragment = ListDetailsFragment()
+    private val _detailsTag = "detailsFragment"
 
     companion object
     {
@@ -26,6 +28,11 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDeta
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_details)
+
+        val fragmentManager = this.fragmentManager
+        val transaction = fragmentManager.beginTransaction()
+        transaction.add(R.id.details_fragment_container, _detailsFragment, _detailsTag)
+        transaction.commit()
 
         if(savedInstanceState == null)
         {
@@ -50,8 +57,8 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDeta
         {
             val listDetails = response.body().items
 
-            val listDetailFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
-            listDetailFragment.setData(listDetails.toList())
+            //val listDetailFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
+            _detailsFragment.setData(listDetails.toList())
         }
         else
         {
@@ -66,9 +73,12 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDeta
 
     override fun itemClicked(listId: Long)
     {
-        val fragmentContainer = findViewById(R.id.fragment_container)
-        if(fragmentContainer != null)
-        {
+        val intent = Intent(this, ReleaseActivity::class.java)
+        intent.putExtra(ReleaseActivity.EXTRA_RELEASE_ID, _detailsFragment.getListId(listId))
+        startActivity(intent)
+        //val fragmentContainer = findViewById(R.id.fragment_container)
+        //if(fragmentContainer != null)
+        //{
             /*val listDetails = ListDetailsFragment()
             val ft = fragmentManager.beginTransaction()
             listDetails.setListId(listId)
@@ -76,14 +86,14 @@ class ListDetailsActivity : AppCompatActivity(), ListListener, Callback<ListDeta
             ft.addToBackStack(null)
             ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
             ft.commit()*/
-        }
-        else
-        {
-            val detailsFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
+        //}
+        //else
+        //{
+            //val detailsFragment = fragmentManager.findFragmentById(R.id.detail_frag) as ListDetailsFragment
 
-            val intent = Intent(this, ReleaseActivity::class.java)
-            intent.putExtra(ReleaseActivity.EXTRA_RELEASE_ID, detailsFragment.getListId(listId))
-            startActivity(intent)
-        }
+           // val intent = Intent(this, ReleaseActivity::class.java)
+            //intent.putExtra(ReleaseActivity.EXTRA_RELEASE_ID, detailsFragment.getListId(listId))
+            //startActivity(intent)
+        //}
     }
 }

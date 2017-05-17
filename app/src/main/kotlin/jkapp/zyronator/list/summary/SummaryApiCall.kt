@@ -13,7 +13,7 @@ import retrofit2.http.Header
 import retrofit2.http.Path
 
 internal class SummaryApiCall(
-        private val activity : MainActivity,
+        private val activity : ListSummaryActivity,
         private val baseUrl : String,
         private val userAgent : String,
         private val discogsUser : String)
@@ -31,7 +31,7 @@ internal class SummaryApiCall(
     }
 }
 
-internal class SummaryCallback(private val activity : MainActivity) : Callback<ListSummaryApiCall>
+internal class SummaryCallback(private val activity : ListSummaryActivity) : Callback<ListSummaryApiCall>
 {
     override fun onResponse(call: Call<ListSummaryApiCall>, response: Response<ListSummaryApiCall>)
     {
