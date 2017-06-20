@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:gravity="center">
+
+    <TextView
+        android:id="@+id/main_current_mix_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="Current Mix"/>
+
+    <TextView
+        android:id="@+id/main_current_mix_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/main_current_mix_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/main_next_mix_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:text="Next Mix"/>
+
+    <TextView
+        android:id="@+id/main_next_mix_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
+
+    <TextView
+        android:id="@+id/main_next_mix_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"/>
+
+    <Button
+        android:id="@+id/main_start_next_mix_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Next Mix"/>
+
+    <Button
+        android:id="@+id/main_find_mix_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Find Another Mix"/>
+
+</LinearLayout>

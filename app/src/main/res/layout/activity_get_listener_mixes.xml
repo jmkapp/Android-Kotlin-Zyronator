@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<fragment-->
+        <!--class="jkapp.zyronator.listenermix.get.GetListenerMixesFragment"-->
+        <!--android:id="@+id/listener_mixes_frag"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--/>-->
+
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="@string/hello_blank_fragment"/>-->
+
+    <TextView
+        android:id="@+id/current_mix_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Current Mix"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/next_mix_text"/>
+
+    <TextView
+        android:id="@+id/current_mix_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fetching mix name..."/>
+
+    <TextView
+        android:id="@+id/current_mix_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/next_mix_text"
+        android:layout_below="@+id/current_mix_label"
+        android:layout_marginTop="132dp"
+        android:text="fetching date..."/>
+
+    <TextView
+        android:id="@+id/next_mix_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/current_mix_date"
+        android:layout_alignStart="@+id/current_mix_label"
+        android:text="Next Mix"/>
+
+    <TextView
+        android:id="@+id/next_mix_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="fetching mix name..."/>
+
+    <TextView
+        android:id="@+id/next_mix_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="83dp"
+        android:text="fetching date..."
+        android:layout_below="@+id/next_mix_label"
+        android:layout_alignStart="@+id/change_mix_button"/>
+
+    <Button
+        android:id="@+id/change_mix_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/current_mix_date"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="43dp"
+        android:onClick="changeMix"
+        android:text="Change Mix"/>
+
+</LinearLayout>
+

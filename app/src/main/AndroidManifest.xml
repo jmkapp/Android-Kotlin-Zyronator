@@ -17,12 +17,25 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="jkapp.zyronator.list.summary.ListSummaryActivity">
+        <activity android:name=".discogs.discogs_user_lists.DiscogsUserListsActivity">
         </activity>
-        <activity android:name="jkapp.zyronator.list.details.ListDetailsActivity">
+        <activity android:name=".discogs.discogs_user_list_items.DisplayDiscogsUserListItemsActivity">
         </activity>
-
-        <activity android:name=".releasedetails.ReleaseActivity">
+        <activity android:name=".listener.insert.InsertListenerActivity">
+        </activity>
+        <activity android:name=".mix.find.FindMixesActivity">
+        </activity>
+        <activity android:name=".mix.create.CreateMixActivity">
+        </activity>
+        <activity android:name=".listenermix.create.CreateListenerMixActivity">
+        </activity>
+        <activity android:name=".mix.find.SelectOrCreateMixActivity">
+        </activity>
+        <activity android:name=".listenermix.find.FindOrCreateListenerMixActivity">
+        </activity>
+        <activity android:name=".discogs.discogs_user_lists.update.UpdateDiscogsUserListApiUrlActivity">
+        </activity>
+        <activity android:name=".login.LoginActivity">
         </activity>
     </application>
 

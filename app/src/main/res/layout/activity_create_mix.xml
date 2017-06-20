@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="jkapp.zyronator.mix.create.CreateMixActivity">
+
+
+    <EditText
+        android:id="@+id/create_mix_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="mix"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/create_discogs_api"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Discogs API URL"
+        android:inputType="textPersonName"/>
+
+    <EditText
+        android:id="@+id/create_discogs_web"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Discogs URL"
+        android:inputType="textPersonName"/>
+
+    <Button
+        android:id="@+id/submit_create_mix"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="createMix"
+        android:text="Create Mix"/>
+
+
+</LinearLayout>
