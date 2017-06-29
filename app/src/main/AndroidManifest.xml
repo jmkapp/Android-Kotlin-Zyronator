@@ -27,11 +27,7 @@
         </activity>
         <activity android:name=".mix.create.CreateMixActivity">
         </activity>
-        <activity android:name=".listenermix.create.CreateListenerMixActivity">
-        </activity>
         <activity android:name=".mix.find.SelectOrCreateMixActivity">
-        </activity>
-        <activity android:name=".listenermix.find.FindOrCreateListenerMixActivity">
         </activity>
         <activity android:name=".discogs.discogs_user_lists.update.UpdateDiscogsUserListApiUrlActivity">
         </activity>

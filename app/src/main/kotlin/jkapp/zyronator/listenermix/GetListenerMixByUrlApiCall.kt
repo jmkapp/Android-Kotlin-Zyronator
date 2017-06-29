@@ -12,14 +12,14 @@ interface GetListenerMixByUrlApiCallback
 }
 
 internal class GetListenerMixByUrlApiCall(
-        private val _activity : GetListenerMixByUrlApiCallback,
+        private val _callback: GetListenerMixByUrlApiCallback,
         private val _listenerMixUrl : String,
         private val _tag : String)
 {
     internal fun execute()
     {
         val apiCall = ApiAccess.apiCalls.getListenerMix(_listenerMixUrl)
-        apiCall.enqueue(GetListenerMixByUrlApiResult(_activity))
+        apiCall.enqueue(GetListenerMixByUrlApiResult(_callback))
     }
 
     inner class GetListenerMixByUrlApiResult(private val _callback : GetListenerMixByUrlApiCallback) : Callback<ListenerMix>
@@ -31,16 +31,17 @@ internal class GetListenerMixByUrlApiCall(
                 val listenerMix = response.body()
                 val listenerMixDisplay = ListenerMixDisplay(
                         listenerMix.mixTitle,
-                        listenerMix.lastListened ?: "",
+                        listenerMix.lastListenedDate ?: "",
                         listenerMix._links.self.href,
                         listenerMix.discogsApiUrl ?: "",
                         listenerMix.discogsWebUrl ?: "",
+                        listenerMix.comment ?: "",
                         listenerMix._links.self.href)
                 _callback.getListenerMixByUrlApiResponse(listenerMixDisplay, _tag)
             }
             else
             {
-                val listenerMixDisplay = ListenerMixDisplay("", "", "", "", "", "")
+                val listenerMixDisplay = ListenerMixDisplay("", "", "", "", "", "", "")
                 _callback.getListenerMixByUrlApiResponse(listenerMixDisplay, _tag)
             }
         }

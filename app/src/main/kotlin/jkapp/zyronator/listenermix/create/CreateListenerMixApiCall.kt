@@ -2,14 +2,16 @@ package jkapp.zyronator.listenermix.create
 
 import jkapp.zyronator.Api
 import jkapp.zyronator.ApiAccess
+import jkapp.zyronator.listenermix.ListenerMix
+import jkapp.zyronator.listenermix.ListenerMixDisplay
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 interface CreateListenerMixActivityCallback
 {
-    fun CreateListenerMixApiResponse(call: Call<Void>, response: Response<Void>)
-    fun CreateListenerMixApiCallFailed(call : Call<Void>, t : Throwable)
+    fun CreateListenerMixApiResponse(listenerMix : ListenerMixDisplay)
+    fun CreateListenerMixApiCallFailed(call : Call<ListenerMix>, t : Throwable)
 }
 
 internal class CreateListenerMixApiCall(
@@ -27,14 +29,28 @@ internal class CreateListenerMixApiCall(
         apiCall.enqueue(CreateListenerMixApiCallback(activityCallback))
     }
 
-    private class CreateListenerMixApiCallback(private val callback : CreateListenerMixActivityCallback) : Callback<Void>
+    private class CreateListenerMixApiCallback(private val callback : CreateListenerMixActivityCallback) : Callback<ListenerMix>
     {
-        override fun onResponse(call: Call<Void>, response: Response<Void>)
+        override fun onResponse(call: Call<ListenerMix>, response: Response<ListenerMix>)
         {
-            callback.CreateListenerMixApiResponse(call, response)
+            if(response.isSuccessful)
+            {
+                val listenerMix = response.body()
+
+                val listenerMixDisplay = ListenerMixDisplay(
+                        mixTitle = listenerMix.mixTitle,
+                        lastListenedDate = listenerMix.lastListenedDate ?: "",
+                        mixUrl = listenerMix._links.mix.href,
+                        discogsApiUrl = listenerMix.discogsApiUrl ?: "",
+                        discogsWebUrl = listenerMix.discogsWebUrl ?: "",
+                        comment = listenerMix.comment ?: "",
+                        selfUrl = listenerMix._links.self.href)
+
+                callback.CreateListenerMixApiResponse(listenerMixDisplay)
+            }
         }
 
-        override fun onFailure(call: Call<Void>, t: Throwable)
+        override fun onFailure(call: Call<ListenerMix>, t: Throwable)
         {
             callback.CreateListenerMixApiCallFailed(call, t)
         }

@@ -33,15 +33,16 @@ internal class GetLastListenedLatestApiCallResult(private val _callBack: GetLast
             val listenerMix = response.body()
             _callBack.getLastListenedLatestApiResponse(ListenerMixDisplay(
                     listenerMix.mixTitle,
-                    listenerMix.lastListened ?: "",
+                    listenerMix.lastListenedDate ?: "",
                     listenerMix._links.self.href,
                     listenerMix.discogsApiUrl ?: "",
                     listenerMix.discogsWebUrl ?: "",
+                    listenerMix.comment ?: "",
                     listenerMix._links.self.href))
         }
         else
         {
-            _callBack.getLastListenedLatestApiResponse(ListenerMixDisplay("", "", "", "", "", ""))
+            _callBack.getLastListenedLatestApiResponse(ListenerMixDisplay("", "", "", "", "", "", ""))
         }
     }
 

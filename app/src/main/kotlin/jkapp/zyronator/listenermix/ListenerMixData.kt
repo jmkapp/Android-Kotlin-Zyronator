@@ -7,7 +7,7 @@ data class ListenerMix(
         val mixTitle : String,
         val discogsApiUrl : String? = "",
         val discogsWebUrl: String? = "",
-        val lastListened : String? = "",
+        val lastListenedDate: String? = "",
         val comment : String? = "",
         val _links : Links) : Parcelable
 {
@@ -36,7 +36,7 @@ data class ListenerMix(
         dest.writeString(mixTitle)
         dest.writeString(discogsApiUrl)
         dest.writeString(discogsWebUrl)
-        dest.writeString(lastListened)
+        dest.writeString(lastListenedDate)
         dest.writeString(comment)
         dest.writeParcelable(_links, 0)
     }

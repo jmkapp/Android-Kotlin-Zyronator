@@ -50,7 +50,7 @@ class FindMixesActivity :
             intent.putExtra(SelectOrCreateMixActivity.SEARCH_TEXT, searchText)
             startActivityForResult(intent, SELECT_OR_CREATE_MIX)
 //            val findMixApiCall = FindMixesApiCall(activityCallBack = this, searchText = searchText)
-//            findMixApiCall.execute()
+//            findMixApiCall.update()
         }
     }
 

@@ -9,6 +9,7 @@ data class ListenerMixDisplay(
         val mixUrl : String,
         val discogsApiUrl: String,
         val discogsWebUrl : String,
+        val comment : String,
         val selfUrl : String) : Parcelable
 {
     companion object
@@ -26,6 +27,7 @@ data class ListenerMixDisplay(
     source.readString(),
     source.readString(),
     source.readString(),
+    source.readString(),
     source.readString()
     )
 
@@ -38,6 +40,7 @@ data class ListenerMixDisplay(
         dest.writeString(mixUrl)
         dest.writeString(discogsApiUrl)
         dest.writeString(discogsWebUrl)
+        dest.writeString(comment)
         dest.writeString(selfUrl)
     }
 }

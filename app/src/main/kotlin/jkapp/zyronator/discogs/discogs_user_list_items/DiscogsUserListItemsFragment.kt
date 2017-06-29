@@ -42,7 +42,7 @@ class DiscogsUserListItemsFragment : ListFragment()
         val adapter : ArrayAdapter<String> = ArrayAdapter<String>(inflater.context,
                 android.R.layout.simple_list_item_1, arrayListOf<String>())
 
-        listAdapter = adapter as ListAdapter?
+        listAdapter = adapter
 
         refresh()
 

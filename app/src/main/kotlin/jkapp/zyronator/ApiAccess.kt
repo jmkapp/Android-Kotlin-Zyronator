@@ -3,6 +3,7 @@ package jkapp.zyronator
 import jkapp.zyronator.listener.get.embedded.ListenerApiData
 import jkapp.zyronator.listenermix.get.ListenerMixesApiData
 import jkapp.zyronator.listenermix.ListenerMix
+import jkapp.zyronator.mix.LastListenedMixes
 import jkapp.zyronator.mix.find.MixApiCallResultData
 import jkapp.zyronator.mix.mixapidata.Mix
 import okhttp3.Credentials
@@ -44,9 +45,14 @@ object ApiAccess
 
 interface ApiCalls
 {
+    // listeners
     @GET("listeners/search/findByName")
     fun findListenerByName(@Query("name") name : String) : Call<ListenerApiData>
 
+    @GET
+    fun lastListened(@Url url : String) : Call<LastListenedMixes>
+
+    // mixes
     @GET
     fun getMix(@Url mixUrl : String) : Call<Mix>
 
@@ -62,6 +68,7 @@ interface ApiCalls
     @POST("mixes")
     fun createMix(@Body values : Map<String, String>) : Call<Void>
 
+    // listenerMixes
     @GET
     fun getListenerMix(@Url listenerMixUrl : String) : Call<ListenerMix>
 
@@ -78,7 +85,7 @@ interface ApiCalls
     fun findListenerMix(@Query("mix") mixUrl : String, @Query("listener") listenerUrl : String) : Call<ListenerMix>
 
     @POST("listenerMixes")
-    fun createListenerMix(@Body values : Map<String, String>) : Call<Void>
+    fun createListenerMix(@Body values : Map<String, String>) : Call<ListenerMix>
 
     @PATCH
     fun updateLastListened(@Url mixUrl : String, @Body updates : Map<String, String>) : Call<ListenerMix>

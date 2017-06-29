@@ -3,6 +3,7 @@ package jkapp.zyronator.listenermix.get.last_listened
 import jkapp.zyronator.ApiAccess
 import jkapp.zyronator.listenermix.ListenerMix
 import jkapp.zyronator.listenermix.ListenerMixDisplay
+import jkapp.zyronator.listenermix.ListenerMixDisplayCreator
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,18 +31,12 @@ internal class GetLastListenedEarliestApiCallResult(private val _callBack: GetLa
     {
         if(response.isSuccessful)
         {
-            val listenerMix = response.body()
-            _callBack.getLastListenedEarliestApiResponse(ListenerMixDisplay(
-                    listenerMix.mixTitle,
-                    listenerMix.lastListened ?: "",
-                    listenerMix._links.self.href,
-                    listenerMix.discogsApiUrl ?: "",
-                    listenerMix.discogsWebUrl ?: "",
-                    listenerMix._links.self.href))
+            val listenerMixDisplay = ListenerMixDisplayCreator(response.body()).listenerMixDisplay
+            _callBack.getLastListenedEarliestApiResponse(listenerMixDisplay)
         }
         else
         {
-            _callBack.getLastListenedEarliestApiResponse(ListenerMixDisplay("", "", "", "", "", ""))
+            _callBack.getLastListenedEarliestApiResponse(ListenerMixDisplay("", "", "", "", "", "", ""))
         }
     }
 
