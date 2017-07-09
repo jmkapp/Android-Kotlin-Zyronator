@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="jkapp.zyronator.mix.create.CreateMixActivity">
+    tools:context="jkapp.zyronator.activities.CreateMixActivity">
 
 
     <EditText

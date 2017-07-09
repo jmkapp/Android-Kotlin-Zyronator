@@ -10,28 +10,24 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".discogs.discogs_user_lists.DiscogsUserListsActivity">
+        <activity android:name=".activities.DisplayDiscogsUserListItemsActivity">
         </activity>
-        <activity android:name=".discogs.discogs_user_list_items.DisplayDiscogsUserListItemsActivity">
+        <activity android:name=".activities.FindMixesActivity">
         </activity>
-        <activity android:name=".listener.insert.InsertListenerActivity">
+        <activity android:name=".activities.CreateMixActivity">
         </activity>
-        <activity android:name=".mix.find.FindMixesActivity">
+        <activity android:name=".activities.SelectOrCreateMixActivity">
         </activity>
-        <activity android:name=".mix.create.CreateMixActivity">
+        <activity android:name=".activities.UpdateDiscogsUserListApiUrlActivity">
         </activity>
-        <activity android:name=".mix.find.SelectOrCreateMixActivity">
-        </activity>
-        <activity android:name=".discogs.discogs_user_lists.update.UpdateDiscogsUserListApiUrlActivity">
-        </activity>
-        <activity android:name=".login.LoginActivity">
+        <activity android:name=".activities.LoginActivity">
         </activity>
     </application>
 

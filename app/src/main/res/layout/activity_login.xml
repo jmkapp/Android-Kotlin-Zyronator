@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="jkapp.zyronator.login.LoginActivity">
+    tools:context="jkapp.zyronator.activities.LoginActivity">
 
 </LinearLayout>

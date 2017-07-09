@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="jkapp.zyronator.mix.find.FindMixesActivity">
+    tools:context="jkapp.zyronator.activities.FindMixesActivity">
 
 </LinearLayout>
