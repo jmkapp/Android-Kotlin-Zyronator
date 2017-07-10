@@ -9,13 +9,13 @@ import android.widget.Toast
 import jkapp.zyronator.R
 import jkapp.zyronator.api_calls.LoginApiCall
 import jkapp.zyronator.api_calls.LoginApiCallback
-import jkapp.zyronator.fragments.LoginCallback
+import jkapp.zyronator.fragments.LoginFragmentCallback
 import jkapp.zyronator.fragments.LoginFragment
-import jkapp.zyronator.data.ListenerApiData
+import jkapp.zyronator.data.ListenerDisplay
 import retrofit2.Call
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity(), LoginCallback, LoginApiCallback
+class LoginActivity : AppCompatActivity(), LoginFragmentCallback, LoginApiCallback
 {
     companion object
     {
@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity(), LoginCallback, LoginApiCallback
         }
     }
 
-    override fun loginDetailsCallback(userName: String, password: String)
+    override fun loginFragmentCallback(userName: String, password: String)
     {
         startApiCall(userName, password)
     }
@@ -50,7 +50,7 @@ class LoginActivity : AppCompatActivity(), LoginCallback, LoginApiCallback
         apiCall.execute()
     }
 
-    override fun LoginApiResponse(call: Call<ListenerApiData>, response: Response<ListenerApiData>)
+    override fun LoginApiResponse(call: Call<ListenerDisplay>, response: Response<ListenerDisplay>)
     {
         val intent = Intent()
 
@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity(), LoginCallback, LoginApiCallback
         finish()
     }
 
-    override fun LoginApiCallFailed(call: Call<ListenerApiData>, t: Throwable)
+    override fun LoginApiCallFailed(call: Call<ListenerDisplay>, t: Throwable)
     {
         Toast.makeText(applicationContext, "Find Listener API call failed: " + t.message, Toast.LENGTH_LONG).show()
     }

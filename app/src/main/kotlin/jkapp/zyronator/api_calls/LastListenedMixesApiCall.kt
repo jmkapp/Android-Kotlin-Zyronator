@@ -13,11 +13,11 @@ interface LastListenedMixesApiCallback
 
 internal class LastListenedMixesApiCall(
         private val _callback : LastListenedMixesApiCallback,
-        private val _listenerUrl : String)
+        private val _lastListenedUrl : String)
 {
     internal fun execute()
     {
-        val apiCall = ApiAccess.apiCalls.lastListened(_listenerUrl + "/lastListened")
+        val apiCall = ApiAccess.apiCalls.lastListened(_lastListenedUrl)
         apiCall.enqueue(LastListenedApiCallback(_callback))
     }
 }

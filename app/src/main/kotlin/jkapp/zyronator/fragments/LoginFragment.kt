@@ -9,9 +9,9 @@ import android.widget.Button
 import android.widget.EditText
 import jkapp.zyronator.R
 
-interface LoginCallback
+interface LoginFragmentCallback
 {
-    fun loginDetailsCallback(userName : String, password : String)
+    fun loginFragmentCallback(userName : String, password : String)
 }
 
 internal class LoginFragment : Fragment(), View.OnClickListener
@@ -35,7 +35,7 @@ internal class LoginFragment : Fragment(), View.OnClickListener
         val passwordText = view.findViewById(R.id.login_password_text) as EditText
         val password = passwordText.text.toString()
 
-        val activity = activity as LoginCallback
-        activity.loginDetailsCallback(userName = userName, password = password)
+        val activity = activity as LoginFragmentCallback
+        activity.loginFragmentCallback(userName = userName, password = password)
     }
 }

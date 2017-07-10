@@ -35,7 +35,7 @@ internal class MainActivity : AppCompatActivity(),
 
     private val FIND_MIX = 2
 
-    private lateinit var _loggedInListener: Listener
+    private lateinit var _loggedInListener: ListenerDisplay
     internal lateinit var currentListenerMix: ListenerMixDisplay
     internal lateinit var nextListenerMix: ListenerMixDisplay
 
@@ -55,13 +55,15 @@ internal class MainActivity : AppCompatActivity(),
             val intent = Intent(this, LoginActivity::class.java)
             startActivityForResult(intent, LOGIN)
 
-            _loggedInListener = BlankListener()
+            _loggedInListener = ListenerDisplay("", null)
             currentListenerMix = ListenerMixDisplay()
             nextListenerMix = ListenerMixDisplay()
         }
         else
         {
             _loggedInListener = savedInstanceState.getParcelable(LOGGED_IN_LISTENER)
+            currentListenerMix = savedInstanceState.getParcelable(CURRENT_LISTENER_MIX)
+            nextListenerMix = savedInstanceState.getParcelable(NEXT_LISTENER_MIX)
         }
     }
 
@@ -75,7 +77,7 @@ internal class MainActivity : AppCompatActivity(),
             {
                 if(resultCode == Activity.RESULT_OK)
                 {
-                    _loggedInListener = data.getParcelableExtra<Listener>(LoginActivity.LISTENER_TAG)
+                    _loggedInListener = data.getParcelableExtra<ListenerDisplay>(LoginActivity.LISTENER_TAG)
 
                     setLastListenedMixes()
                 }
@@ -91,7 +93,7 @@ internal class MainActivity : AppCompatActivity(),
                 if(resultCode == Activity.RESULT_OK)
                 {
                     val mix = data.getParcelableExtra<Mix>(FindMixesActivity.MIX_RESULT)
-                    val apiCall = CreateListenerMixApiCall(activityCallback = this, listenerUrl = _loggedInListener.listenerUrl, mixUrl = mix._links.self.href)
+                    val apiCall = CreateListenerMixApiCall(activityCallback = this, listenerUrl = _loggedInListener._links?.self?.href ?: "", mixUrl = mix._links.self.href)
                     apiCall.execute()
                 }
             }
@@ -117,7 +119,7 @@ internal class MainActivity : AppCompatActivity(),
 
     private fun setLastListenedMixes()
     {
-        val lastListenedMixesGetter = LastListenedMixesGetter(_activity = this, _listenerUrl = _loggedInListener.listenerUrl)
+        val lastListenedMixesGetter = LastListenedMixesGetter(_activity = this, _lastListenedUrl = _loggedInListener._links?.lastListened?.href ?: "")
         lastListenedMixesGetter.execute()
     }
 
@@ -188,7 +190,7 @@ internal class MainActivity : AppCompatActivity(),
     override fun findMixButtonPressed()
     {
         val intent = Intent(this, FindMixesActivity::class.java)
-        intent.putExtra(FindMixesActivity.LISTENER_URL, _loggedInListener.listenerUrl)
+        intent.putExtra(FindMixesActivity.LISTENER_URL, _loggedInListener._links?.self?.href ?: "")
         startActivityForResult(intent, FIND_MIX)
     }
 
@@ -222,31 +224,5 @@ internal class MainActivity : AppCompatActivity(),
         outState.putParcelable(LOGGED_IN_LISTENER, _loggedInListener)
 
         super.onSaveInstanceState(outState)
-    }
-}
-
-internal class BlankListener() : Listener, Parcelable {
-    override val listenerName: String
-    get() = ""
-
-    override val listenerUrl: String
-    get() = ""
-
-    companion object
-    {
-        @JvmField val CREATOR: Parcelable.Creator<BlankListener> = object : Parcelable.Creator<BlankListener>
-        {
-            override fun createFromParcel(source: Parcel): BlankListener = BlankListener(source)
-            override fun newArray(size: Int): Array<BlankListener?> = arrayOfNulls(size)
-        }
-    }
-
-    constructor(source: Parcel) : this(
-    )
-
-    override fun describeContents() = 0
-
-    override fun writeToParcel(dest: Parcel, flags: Int)
-    {
     }
 }

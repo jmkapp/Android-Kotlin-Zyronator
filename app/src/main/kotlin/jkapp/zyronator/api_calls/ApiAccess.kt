@@ -1,7 +1,7 @@
 package jkapp.zyronator.api_calls
 
 import jkapp.zyronator.data.LastListenedMixes
-import jkapp.zyronator.data.ListenerApiData
+import jkapp.zyronator.data.ListenerDisplay
 import jkapp.zyronator.data.ListenerMixesApiData
 import jkapp.zyronator.data.ListenerMix
 import jkapp.zyronator.data.ListenerMixDisplay
@@ -48,7 +48,7 @@ interface ApiCalls
 {
     // listeners
     @GET("listeners/search/findByName")
-    fun findListenerByName(@Query("name") name : String) : Call<ListenerApiData>
+    fun findListenerByName(@Query("name") name : String) : Call<ListenerDisplay>
 
     @GET
     fun lastListened(@Url url : String) : Call<LastListenedMixes>

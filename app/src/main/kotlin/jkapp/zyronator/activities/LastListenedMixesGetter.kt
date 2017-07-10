@@ -11,11 +11,11 @@ import retrofit2.Response
 
 internal class LastListenedMixesGetter(
         private val _activity : MainActivity,
-        private val _listenerUrl : String) : LastListenedMixesApiCallback
+        private val _lastListenedUrl : String) : LastListenedMixesApiCallback
 {
     internal fun execute()
     {
-        val apiCall = LastListenedMixesApiCall(this, _listenerUrl = _listenerUrl)
+        val apiCall = LastListenedMixesApiCall(this, _lastListenedUrl = _lastListenedUrl)
         apiCall.execute()
     }
 

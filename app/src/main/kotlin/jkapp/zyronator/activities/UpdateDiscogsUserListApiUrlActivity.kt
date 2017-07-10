@@ -16,13 +16,15 @@ import jkapp.zyronator.api_calls.GetListenerMixByUrlApiCall
 import jkapp.zyronator.api_calls.GetListenerMixByUrlApiCallback
 import jkapp.zyronator.data.ListenerMix
 import jkapp.zyronator.data.ListenerMixDisplayOld
-import jkapp.zyronator.listenermix.update.UpdateMixApiCallCallback
 import jkapp.zyronator.data.Mix
 import retrofit2.Call
 import retrofit2.Response
 
-internal class UpdateDiscogsUserListApiUrlActivity : AppCompatActivity(), ListListener, DiscogsUserListsApiCallback,
-        UpdateMixApiCallCallback, GetListenerMixByUrlApiCallback
+internal class UpdateDiscogsUserListApiUrlActivity :
+        AppCompatActivity(),
+        ListListener,
+        DiscogsUserListsApiCallback,
+        GetListenerMixByUrlApiCallback
 {
     private val LISTS_FRAGMENT = "listsFragment"
 
@@ -84,25 +86,25 @@ internal class UpdateDiscogsUserListApiUrlActivity : AppCompatActivity(), ListLi
         Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
     }
 
-    override fun updateMixApiResponse(call: Call<Mix>, response: Response<Mix>)
-    {
-        if(response.isSuccessful)
-        {
-            val listenerMix = intent.getParcelableExtra<ListenerMixDisplayOld>(LISTENER_MIX_DISPLAY)
+//    override fun updateMixApiResponse(call: Call<Mix>, response: Response<Mix>)
+//    {
+//        if(response.isSuccessful)
+//        {
+//            val listenerMix = intent.getParcelableExtra<ListenerMixDisplayOld>(LISTENER_MIX_DISPLAY)
+//
+//            val apiCall = GetListenerMixByUrlApiCall(this, listenerMix.selfUrl, "")
+//            apiCall.execute()
+//        }
+//        else
+//        {
+//            Toast.makeText(applicationContext, "Api Call Failed: " + response.message(), Toast.LENGTH_LONG).show()
+//        }
+//    }
 
-            val apiCall = GetListenerMixByUrlApiCall(this, listenerMix.selfUrl, "")
-            apiCall.execute()
-        }
-        else
-        {
-            Toast.makeText(applicationContext, "Api Call Failed: " + response.message(), Toast.LENGTH_LONG).show()
-        }
-    }
-
-    override fun updateMixApiCallFailed(call: Call<Mix>, t: Throwable)
-    {
-        Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
-    }
+//    override fun updateMixApiCallFailed(call: Call<Mix>, t: Throwable)
+//    {
+//        Toast.makeText(applicationContext, "Api Call Failed: " + t.message, Toast.LENGTH_LONG).show()
+//    }
 
     override fun getListenerMixByUrlApiResponse(listenerMix : ListenerMixDisplayOld, tag : String)
     {
